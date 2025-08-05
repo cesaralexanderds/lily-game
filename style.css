@@ -1,0 +1,426 @@
+:root {
+      --primary-gradient-start: #667eea;
+      --primary-gradient-end: #764ba2;
+      --container-bg: rgba(255, 255, 255, 0.95);
+      --text-primary: #4a148c;
+      --text-secondary: #6a1b9a;
+      --accent-color: #e91e63;
+      --success-color: #4caf50;
+      --warning-color: #ff9800;
+      --info-color: #2196f3;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.2);
+      --shadow-heavy: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="dark"] {
+      --primary-gradient-start: #2c3e50;
+      --primary-gradient-end: #34495e;
+      --container-bg: rgba(44, 62, 80, 0.95);
+      --text-primary: #ecf0f1;
+      --text-secondary: #bdc3c7;
+      --accent-color: #e74c3c;
+      --success-color: #27ae60;
+      --warning-color: #f39c12;
+      --info-color: #3498db;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+      transition: all 0.5s ease;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+    }
+
+    .container {
+      background: var(--container-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px var(--shadow-light);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      color: var(--text-primary);
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px var(--shadow-light);
+      animation: fadeInDown 1s ease-out;
+      position: relative;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--container-bg);
+      border: 2px solid var(--text-secondary);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(15deg) scale(1.1);
+      box-shadow: 0 4px 15px var(--shadow-medium);
+    }
+
+    #plant-container {
+      width: 250px;
+      height: 250px;
+      margin: 30px auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 15px;
+      position: relative;
+      animation: fadeIn 1.5s ease-out;
+      will-change: transform;
+    }
+
+    #plant-container:hover {
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 15px 30px var(--shadow-medium);
+    }
+
+    #plant-container:active {
+      transform: scale(0.98);
+    }
+
+    .click-effect {
+      position: absolute;
+      pointer-events: none;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      font-weight: bold;
+      text-shadow: 2px 2px 4px var(--shadow-medium);
+      animation: clickEffect 1s ease-out forwards;
+      z-index: 100;
+    }
+
+    @keyframes clickEffect {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(1.5);
+      }
+    }
+
+    #plant-container::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #plant-container:hover::before {
+      opacity: 1;
+    }
+
+    #message {
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      max-width: 400px;
+      margin: 20px auto;
+      line-height: 1.6;
+      font-weight: 500;
+      animation: fadeInUp 1s ease-out 0.5s both;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .progress-container {
+      width: 100%;
+      max-width: 300px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      padding: 3px;
+      box-shadow: inset 0 2px 4px var(--shadow-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: linear-gradient(90deg, #f06292, #ec407a);
+      border-radius: 8px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 4px rgba(240, 98, 146, 0.3);
+      position: relative;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: progressShine 2s infinite;
+    }
+
+    @keyframes progressShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .stage-indicator {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--accent-color), #d81b60);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(240, 98, 146, 0.3);
+      animation: fadeInUp 1s ease-out 1s both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(240, 98, 146, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.secondary {
+      background: linear-gradient(135deg, var(--info-color), #1565c0);
+      box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+    }
+
+    .btn.secondary:hover {
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+    }
+
+    .click-hint {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 15px;
+      opacity: 0.8;
+      animation: pulse 2s infinite;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--container-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 15px 20px;
+      box-shadow: 0 8px 25px var(--shadow-medium);
+      border-left: 4px solid var(--accent-color);
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      max-width: 300px;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.success {
+      border-left-color: var(--success-color);
+    }
+
+    .notification.warning {
+      border-left-color: var(--warning-color);
+    }
+
+    .particles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 50;
+    }
+
+    .particle {
+      position: absolute;
+      font-size: 20px;
+      animation: particleFloat 3s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) rotate(360deg) scale(0.5);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.8;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .growth-animation {
+      animation: grow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes grow {
+      0% {
+        transform: scale(0.8) rotate(-5deg);
+      }
+      50% {
+        transform: scale(1.1) rotate(2deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 20px;
+        margin: 10px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      #plant-container {
+        width: 200px;
+        height: 200px;
+      }
+      
+      #message {
+        font-size: 1.1rem;
+      }
+    }
